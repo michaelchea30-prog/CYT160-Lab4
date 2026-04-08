@@ -10,6 +10,4 @@ output.elasticsearch:
   hosts: ["http://host.docker.internal:9200"]
   index: "suricata-alerts-%{+yyyy.MM.dd}"
 
-setup.template.name: "suricata-alerts"
-setup.template.pattern: "suricata-alerts-*"
 setup.ilm.enabled: false
