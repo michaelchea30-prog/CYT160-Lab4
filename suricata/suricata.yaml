@@ -1,0 +1,24 @@
+%YAML 1.1
+---
+af-packet:
+  - interface: any
+
+default-rule-path: /etc/suricata/rules
+
+rule-files:
+  - local.rules
+  - mqtt-rate-limit.rules
+  - mqtt-malformed-json.rules
+
+outputs:
+  - eve-log:
+      enabled: yes
+      filetype: regular
+      filename: /var/log/suricata/eve.json
+      types:
+        - alert
+        - http
+        - dns
+        - tls
+        - files
+        - flow
