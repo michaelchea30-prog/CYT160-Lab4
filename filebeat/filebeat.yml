@@ -1,10 +1,10 @@
 filebeat.inputs:
-  - type: log
-    enabled: true
-    paths:
-      - /suricata-logs/eve.json
-    json.keys_under_root: true
-    json.add_error_key: true
+- type: log
+  enabled: true
+  paths:
+    - /var/log/suricata/eve.json
+  json.keys_under_root: true
+  json.add_error_key: true
 
 output.logstash:
-  hosts: ["host.docker.internal:5044"]
+  hosts: ["logstash:5044"]
