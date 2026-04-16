@@ -1,7 +1,7 @@
 # CYT160 – IoT Security Labs & Final Project
 
 This repository contains my lab work and final project for **CYT160 – Security for Cloud and Internet of Things**.  
-The focus of this course is building, monitoring, and securing MQTT‑based IoT pipelines using industry‑standard tools such as **Suricata**, **Docker**, **Filebeat**, and the **Elastic (ELK) Stack**.
+The course focuses on building, monitoring, and securing MQTT‑based IoT pipelines using industry‑standard tools such as **Suricata**, **Docker**, **Filebeat**, and the **Elastic (ELK) Stack**, along with TLS hardening and traffic analysis.
 
 All work was completed in a controlled lab environment for educational purposes.
 
@@ -13,70 +13,79 @@ All work was completed in a controlled lab environment for educational purposes.
 Containerize an IoT security monitoring stack using Docker, based on earlier manual deployments.
 
 **Key Components:**
-- **Mosquitto MQTT Broker**
-- **Suricata IDS** (custom MQTT detection rules)
-- **Filebeat** for log shipping
-- **Elasticsearch** (host‑based)
+- Mosquitto MQTT broker
+- Suricata IDS with custom MQTT rules
+- Filebeat for log shipping
+- Elasticsearch (running on the host)
+
+**Key Outcomes:**
+- Docker Compose orchestration of all services
+- Suricata monitoring MQTT traffic on port 1883
+- Detection of malformed payloads and suspicious shell patterns
+- End‑to‑end log flow verification:  
+  `MQTT → Suricata → Filebeat → Elasticsearch`
+
+---
+
+## 🔹 Lab 5 – Securing MQTT with TLS & Traffic Analysis
+
+**Objective:**  
+Harden the MQTT pipeline using TLS and analyze the security impact of encrypted vs plaintext traffic.
+
+**Focus Areas:**
+- MQTT over plaintext (**port 1883**) vs TLS (**port 8883**)
+- Certificate‑based authentication using Mosquitto
+- Packet capture (pcap) analysis using `tcpdump`
+- Understanding IDS visibility limitations with encrypted traffic
 
 **What This Lab Demonstrates:**
-- Docker Compose orchestration of multiple security services
-- Monitoring MQTT traffic on port 1883
-- Detecting malformed payloads and suspicious shell patterns
-- Shipping Suricata `eve.json` logs into Elasticsearch
-- Verifying end‑to‑end flow:  
-  `MQTT message → Suricata alert → Filebeat → Elasticsearch`
+- Clear visibility of MQTT payloads in plaintext pcaps
+- Encrypted and unreadable payloads when TLS is enabled
+- Enforcement of mutual TLS using `require_certificate true`
+- Rejection of clients without valid certificates
+- Threat detection strategies for encrypted traffic based on metadata (IP, ports, timing, connection behavior)
 
 ---
 
 ## 🔹 Project 2 – MQTT Attack Detection & Rule Analysis
 
 **Objective:**  
-Design and test custom Suricata rules to detect malicious MQTT activity.
+Design, test, and analyze custom Suricata rules for detecting malicious MQTT activity.
 
-**Focus Areas:**
-- MQTT flood detection using `threshold` rules
+**Key Topics:**
+- Threshold‑based detection for MQTT flood attacks
 - Payload inspection using `content`, `depth`, and `offset`
-- Comparing plaintext MQTT (1883) vs TLS‑encrypted MQTT (8883)
-- Understanding IDS vs IPS behavior
+- IDS vs IPS behavior and rule actions (`alert` vs `drop`)
+- Plaintext vs TLS trade‑offs for detection
 
 **Attacks Simulated:**
-- Excessive publish rate (DoS‑style flood)
+- Excessive publish‑rate flood (DoS‑style attack)
 - Malformed payload injection
-- Suspicious shell command patterns
+- Suspicious shell command patterns in MQTT messages
 
 ---
 
 ## 🔹 Project 3 – IoT Security Pipeline with ELK Stack (Final Project)
 
 **Objective:**  
-Build a complete IoT security monitoring pipeline with real‑time visualization and analysis.
+Build a complete IoT security monitoring pipeline with ingestion, analysis, and visualization.
 
 **Architecture Overview:**
-- Raspberry Pi (sensor telemetry publisher)
-- MQTT over port 1883
-- AWS EC2 hosting:
-  - Mosquitto
-  - Suricata IDS
-  - Filebeat
-  - Logstash
-  - Elasticsearch
-  - Kibana
+- Raspberry Pi publishing telemetry data
+- MQTT broker on AWS EC2
+- Suricata IDS monitoring MQTT traffic
+- Filebeat and Logstash for log parsing and enrichment
+- Elasticsearch for indexing
+- Kibana dashboards for visualization
+- AWS CloudWatch alarms for system impact monitoring
 
 **Key Features:**
-- Separate Elasticsearch indices for telemetry and security events
-- Custom Suricata rules for:
-  - MQTT flood attacks
-  - Malicious payload inspection
-- Logstash parsing and field enrichment
-- Kibana dashboards for:
-  - Sensor data
-  - Attack spikes
-  - Event counts and trends
-- AWS CloudWatch alarm integration for CPU spikes during attacks
-
-**Attacks Simulated:**
-- MQTT connection flood (DoS)
-- Malformed payload / command injection attempt
+- Separate indices for telemetry and security events
+- Custom Suricata MQTT rules
+- Logstash field mapping and enrichment
+- Detection of DoS floods and malicious payloads
+- Visualization of attack spikes and event trends
+- CloudWatch CPU alerts triggered during attack simulations
 
 ---
 
@@ -88,18 +97,19 @@ Build a complete IoT security monitoring pipeline with real‑time visualization
 - Filebeat & Logstash
 - Elasticsearch & Kibana
 - AWS EC2 & CloudWatch
-- Python (MQTT publishers and attack scripts)
+- Python (MQTT publishers and test scripts)
+- tcpdump & packet capture analysis
 
 ---
 
 ## ⚠️ Disclaimer
 
 This repository is for **educational purposes only**.  
-All attacks were performed in isolated lab environments against systems intentionally configured for testing.
+All attacks and simulations were performed in isolated lab environments against systems intentionally configured for testing.
 
 ---
 
 ## 👤 Author
 
 **Michael Chea**  
-CYT160 – Security for Cloud and Internet of Things  
+ 
